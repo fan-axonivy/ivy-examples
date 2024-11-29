@@ -1,0 +1,89 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:ic="http://ivyteam.ch/jsf/component"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+	<ui:composition template="/layouts/frame-10-full-width.xhtml">
+		<ui:define name="title">UserRegistration</ui:define>
+		<ui:define name="content">
+
+			<h:form id="form">
+				<p:growl id="messages" showDetail="true" />
+
+				<p:fieldset id="userInformation" legend="User information">
+					<f:event listener="#{data.bean.onValidationUserInformation}"
+						type="postValidate" />
+					<div class="formgrid grid">
+
+						<div class="field col-12 md:col-6">
+							<p:outputLabel value="Username" for="username" />
+
+							<p:inputText id="username" required="true" styleClass="w-full"
+								value="#{data.bean.user.username}" />
+						</div>
+
+						<div class="field col-12 md:col-6">
+							<p:outputLabel value="Email" for="email" />
+
+							<p:inputText id="email" required="true" styleClass="w-full"
+								value="#{data.bean.user.email}"
+								validatorMessage="Email is wrong format">
+								<f:validateRegex
+									pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+							</p:inputText>
+						</div>
+
+						<div class="field col-12 md:col-6">
+							<p:outputLabel value="First name" for="firstName" />
+
+							<p:inputText id="firstName" required="true"
+								requiredMessage="First name is required" styleClass="w-full"
+								value="#{data.bean.user.firstName}" />
+						</div>
+
+						<div class="field col-12 md:col-6">
+							<p:outputLabel value="Last name" for="lastName" />
+
+							<p:inputText id="lastName" required="true" styleClass="w-full"
+								value="#{data.bean.user.lastName}" />
+						</div>
+
+						<div class="field col-12 md:col-6">
+							<p:outputLabel value="Phone number" for="phoneNumber" />
+
+							<p:inputText id="phoneNumber"
+								validator="#{data.bean.onValidationPhoneNumber}"
+								validatorMessage="Phone number is wrong" styleClass="w-full"
+								value="#{data.bean.user.phoneNumber}" />
+						</div>
+
+						<div class="field col-12 md:col-6">
+							<p:outputLabel value="Social link" for="socialUrl" />
+
+							<p:inputText id="socialUrl" styleClass="w-full"
+								value="#{data.bean.user.socialUrl}">
+								<f:validator validatorId="com.examples.ivy.LinkValidator" />
+							</p:inputText>
+						</div>
+
+					</div>
+				</p:fieldset>
+				<br />
+				<div class="command-btns">
+					<p:commandLink id="cancel" actionListener="#{logic.close}"
+						process="@this" value="Cancel" />
+
+					<p:commandButton id="register" value="Registration"
+						update="userInformation messages" process="userInformation"
+						icon="fa-solid fa-paper-plane" />
+				</div>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

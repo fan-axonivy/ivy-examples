@@ -1,0 +1,124 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/process/11.3.0/process.json",
+  "id" : "19370DA5120A8E8F",
+  "config" : {
+    "data" : "com.examples.ivy.mail.SendMailData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "start",
+      "config" : {
+        "signature" : "start",
+        "request" : {
+          "name" : "Send Mail With Attachment",
+          "customFields" : [
+            { "name" : "cssIcon", "value" : "fa-solid fa-paper-plane" }
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 768, "y" : 64 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "DialogCall",
+      "name" : "Compose",
+      "config" : {
+        "dialog" : "com.examples.ivy.mail.Compose:start()",
+        "call" : {
+          "map" : { },
+          "code" : "ivy.task.name = \"Send mail\";"
+        },
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.mail" : "result.mail"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 240, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f4", "to" : "f5", "color" : "default" }
+      ]
+    }, {
+      "id" : "f5",
+      "type" : "EMail",
+      "name" : "Send Mail",
+      "config" : {
+        "headers" : {
+          "subject" : "<%=in.mail.subject%>",
+          "from" : "<%=in.mail.from%>",
+          "to" : "<%=in.mail.to%>",
+          "cc" : "<%=in.mail.cc%>",
+          "bcc" : "<%=in.mail.bcc%>"
+        },
+        "message" : {
+          "body" : "<%=in.mail.body%>",
+          "contentType" : "text/html"
+        },
+        "attachments" : [
+          "in.mail.attachments"
+        ]
+      },
+      "visual" : {
+        "at" : { "x" : 456, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f6", "to" : "f9", "color" : "default" }
+      ]
+    }, {
+      "id" : "f7",
+      "type" : "SignalStartEvent",
+      "name" : "Send email by signal",
+      "config" : {
+        "signalCode" : "send:mail",
+        "output" : {
+          "map" : { },
+          "code" : [
+            "import com.examples.ivy.mail.model.MailActivity;",
+            "out.mail = signal.getSignalData() as MailActivity;"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 176 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
+      },
+      "connect" : [
+        { "id" : "f8", "to" : "f5", "via" : [ { "x" : 456, "y" : 176 } ] }
+      ]
+    }, {
+      "id" : "f9",
+      "type" : "Script",
+      "name" : "Delete attachments",
+      "config" : {
+        "output" : {
+          "code" : [
+            "for(File file : in.mail.attachments) {",
+            "  file.delete();",
+            "  ivy.log.info(\"Send email: Deleted file {0}\", file.getName());",
+            "}"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 640, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f10", "to" : "f1", "color" : "default" }
+      ]
+    } ]
+}

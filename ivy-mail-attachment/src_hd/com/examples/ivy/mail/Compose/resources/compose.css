@@ -1,0 +1,14 @@
+
+.field-chips .ui-chips .ui-chips-container {
+	width: 100%;
+	padding: 0.5rem 0.5rem !important;
+}
+
+.field-chips .ui-chips .ui-chips-container.ui-state-disabled .ui-chips-input-token {
+	display: none;
+}
+
+.field-chips .ui-chips .ui-chips-container .ui-chips-token {
+	margin: 0 0 0 0.125rem;
+	padding: 0px 0px;
+}

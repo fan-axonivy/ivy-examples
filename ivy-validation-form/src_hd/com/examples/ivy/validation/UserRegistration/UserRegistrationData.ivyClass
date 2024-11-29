@@ -1,0 +1,4 @@
+UserRegistrationData #class
+com.examples.ivy.validation.UserRegistration #namespace
+bean com.examples.ivy.validation.bean.UserRegistationBean #field
+bean PERSISTENT #fieldModifier
