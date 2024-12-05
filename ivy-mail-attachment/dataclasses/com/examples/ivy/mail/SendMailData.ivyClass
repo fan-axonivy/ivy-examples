@@ -1,3 +1,0 @@
-SendMailData #class
-com.examples.ivy.mail #namespace
-mail com.examples.ivy.mail.model.MailActivity #field
