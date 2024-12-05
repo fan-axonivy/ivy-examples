@@ -1,8 +1,8 @@
 {
   "$schema" : "https://json-schema.axonivy.com/process/12.0.0/process.json",
-  "id" : "1934906BE87E9B76",
+  "id" : "1938652660F20A60",
   "config" : {
-    "data" : "com.examples.ivy.validation.UserCreationData"
+    "data" : "com.examples.ivy.mail.SendMailBySignalData"
   },
   "elements" : [ {
       "id" : "f0",
@@ -11,9 +11,9 @@
       "config" : {
         "signature" : "start",
         "request" : {
-          "name" : "User Registration",
+          "name" : "Send Mail From Signal",
           "customFields" : [
-            { "name" : "cssIcon", "value" : "fa-solid fa-clipboard-user" }
+            { "name" : "cssIcon", "value" : "fa-solid fa-mail-bulk" }
           ]
         }
       },
@@ -32,14 +32,19 @@
       }
     }, {
       "id" : "f3",
-      "type" : "DialogCall",
-      "name" : "UserRegistration",
+      "type" : "Script",
+      "name" : "Send Email By Signal",
       "config" : {
-        "dialog" : "com.examples.ivy.validation.UserRegistration:start()"
+        "output" : {
+          "code" : [
+            "import com.examples.ivy.mail.bean.MailSignalBean;",
+            "MailSignalBean bean = new MailSignalBean();",
+            "bean.onSendEmail();"
+          ]
+        }
       },
       "visual" : {
-        "at" : { "x" : 308, "y" : 65 },
-        "size" : { "width" : 152, "height" : 62 }
+        "at" : { "x" : 280, "y" : 64 }
       },
       "connect" : [
         { "id" : "f4", "to" : "f1", "color" : "default" }

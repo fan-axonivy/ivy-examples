@@ -1,4 +1,0 @@
-ComposeData #class
-com.examples.ivy.mail.Compose #namespace
-bean com.examples.ivy.mail.bean.MailBean #field
-bean PERSISTENT #fieldModifier
