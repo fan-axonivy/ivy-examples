@@ -25,7 +25,8 @@ public class MailSignalBean {
 		mail.setAttachments(attachments);
 
 		SignalCode signalCode = new SignalCode("send:mail");
-		Ivy.wf().signals().send(signalCode, mail);
+		Ivy.wf().signals().create().data(mail).send(signalCode);
+		
 	}
 
 	private List<File> getAttachments() {
