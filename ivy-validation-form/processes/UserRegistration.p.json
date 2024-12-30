@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.3.0/process.json",
+  "$schema" : "https://json-schema.axonivy.com/process/12.0.0/process.json",
   "id" : "1934906BE87E9B76",
   "config" : {
     "data" : "com.examples.ivy.validation.UserCreationData"
@@ -38,7 +38,8 @@
         "dialog" : "com.examples.ivy.validation.UserRegistration:start()"
       },
       "visual" : {
-        "at" : { "x" : 288, "y" : 64 }
+        "at" : { "x" : 308, "y" : 65 },
+        "size" : { "width" : 152, "height" : 62 }
       },
       "connect" : [
         { "id" : "f4", "to" : "f1", "color" : "default" }

@@ -1,0 +1,10 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/data-class/12.0.0/data-class.json",
+  "simpleName" : "UserRegistrationData",
+  "namespace" : "com.examples.ivy.validation.UserRegistration",
+  "isBusinessCaseData" : false,
+  "fields" : [ {
+    "name" : "bean",
+    "type" : "com.examples.ivy.validation.bean.UserRegistationBean"
+  } ]
+}

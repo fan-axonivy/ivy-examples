@@ -38,8 +38,6 @@ The javax.faces.event.PostValidateEvent is a system event, that fire after all c
 </h:form>	
 ```
 
-The example is using [Axon Ivy Designer 11.3.1](https://download.axonivy.com/11.3.1/AxonIvyDesigner11.3.1.2406210843_Windows_x64.zip) 
-
 The result:
  ![ivy-validation-form](_docs/images/Validation_form.png)
  

@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/process/11.3.0/process.json",
+  "$schema" : "https://json-schema.axonivy.com/process/12.0.0/process.json",
   "id" : "19370DA5120A8E8F",
   "config" : {
     "data" : "com.examples.ivy.mail.SendMailData"

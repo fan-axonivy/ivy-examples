@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	xmlns:ic="http://ivyteam.ch/jsf/component"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<cc:interface componentType="IvyComponent">
+	<cc:attribute name="category" required="true" />
+	<cc:attribute name="bean" required="true" />
+	<cc:attribute name="updateId" required="false" />
+</cc:interface>
+
+<cc:implementation>
+	<c:set var="bean" value="#{cc.attrs.bean}" />
+
+	<p:dialog id="addCategoryDialog" widgetVar="addCategoryDialog"
+		header="Add Category" dynamic="true" modal="true" closeOnEscape="true"
+		appendTo="@(body)" width="600" resizable="false">
+
+		<p:ajax event="close" update="addCategoryDialog" resetValues="true" />
+
+		<h:form id="addCategoryForm">
+			<f:event listener="#{bean.onValdationAddCategory}"
+				type="postValidate" />
+
+			<div class="formgrid grid">
+
+				<div class="field col-12">
+					<p:outputLabel value="Name" for="name" />
+					<p:inputText id="name" required="true" styleClass="w-full"
+						value="#{cc.attrs.category.name}" />
+				</div>
+
+				<div class="field col-12">
+					<p:outputLabel value="Description" for="description" />
+
+					<p:inputTextarea id="description" styleClass="w-full" rows="4"
+						maxlength="1000" counterTemplate="{0} characters remaining."
+						counter="display" value="#{cc.attrs.category.description}" />
+
+					<h:outputText id="display" class="block" />
+				</div>
+
+			</div>
+			<div class="dialog-command-btns">
+				<p:commandLink id="btnCancelDialog" value="Cancel" process="@this"
+					oncomplete="PF('addCategoryDialog').hide()" />
+
+				<p:commandButton id="btnAdd" update="addCategoryForm messages #{cc.attrs.updateId}"
+					process="addCategoryForm" actionListener="#{bean.onAddCategory}"
+					oncomplete="if (!args.validationFailed) {PF('addCategoryDialog').hide()}"
+					value="Add" icon="si si-add" />
+			</div>
+		</h:form>
+	</p:dialog>
+
+</cc:implementation>
+
+</html>

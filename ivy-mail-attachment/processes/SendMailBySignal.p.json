@@ -1,0 +1,53 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/process/12.0.0/process.json",
+  "id" : "1938652660F20A60",
+  "config" : {
+    "data" : "com.examples.ivy.mail.SendMailBySignalData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "start",
+      "config" : {
+        "signature" : "start",
+        "request" : {
+          "name" : "Send Mail From Signal",
+          "customFields" : [
+            { "name" : "cssIcon", "value" : "fa-solid fa-mail-bulk" }
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "visual" : {
+        "at" : { "x" : 472, "y" : 64 },
+        "labelOffset" : { "x" : 13, "y" : 33 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "Script",
+      "name" : "Send Email By Signal",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import com.examples.ivy.mail.bean.MailSignalBean;",
+            "MailSignalBean bean = new MailSignalBean();",
+            "bean.onSendEmail();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 280, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f4", "to" : "f1", "color" : "default" }
+      ]
+    } ]
+}
