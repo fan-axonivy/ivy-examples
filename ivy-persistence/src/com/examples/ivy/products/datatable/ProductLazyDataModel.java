@@ -3,6 +3,7 @@ package com.examples.ivy.products.datatable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -127,7 +128,7 @@ public class ProductLazyDataModel extends LazyDataModel<Product> {
 				break;
 				
 			case AVAILABLE_AT:
-				product.setAvailableAt(Instant.parse(Objects.toString(value, null)));
+				product.setAvailableAt(Date.from(Instant.parse(Objects.toString(value, null))));
 				break;
 				
 			case STATUS:
