@@ -1,15 +1,30 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
-  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
-  xmlns:pe="http://primefaces.org/ui/extensions">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:ic="http://ivyteam.ch/jsf/component"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 <h:body>
-  <ui:composition template="/layouts/frame-10-full-width.xhtml">
-    <ui:define name="title">ProductOverview</ui:define>
-    <ui:define name="content">
+	<ui:composition template="/layouts/frame-10-full-width.xhtml">
+		<ui:define name="title">ProductOverview</ui:define>
+		<ui:define name="content">
 
-      <h:form id="form">
+			<p:growl id="messages" showDetail="true" />
 
-				<p:dataTable id="productTable" widgetVar="productTable"
+			<h:form id="form">
+
+				<div class="command-btns mb-2">
+					<p:commandButton id="btnAddProduct" value="Product"
+						icon="fa-solid fa-plus" styleClass="mr-2" process="@this"
+						actionListener="#{data.bean.onAddNewRow()}" update="productTable" />
+
+					<p:commandButton id="btnAddCategory" value="Category"
+						icon="fa-solid fa-plus"
+						oncomplete="PF('addCategoryDialog').show()" />
+				</div>
+
+				<p:dataTable id="productTable" widgetVar="productTableWidget"
 					value="#{data.bean.products}" lazy="true" var="product"
 					paginator="true" rows="10" stripedRows="true"
 					paginatorAlwaysVisible="true" paginatorPosition="bottom"
@@ -17,20 +32,46 @@
 					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 					rowsPerPageTemplate="5,10,15" resizableColumns="true"
 					rowIndexVar="rowIndex" rowKey="#{product.id}"
-					selectionPageOnly="false" scrollable="true">
+					selectionPageOnly="false" scrollable="true" editable="true">
+
+					<p:ajax event="rowEdit" listener="#{data.bean.onRowEdit}"
+						update="messages" />
+					<p:ajax event="rowEditCancel" listener="#{data.bean.onRowCancel}"
+						update="messages" />
 
 					<p:column headerText="Name" sortBy="#{_.NAME}" filterBy="#{_.NAME}">
-						<h:outputText value="#{product.name}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.name}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{product.name}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 
 					<p:column headerText="Description" sortBy="#{_.DESCRIPTION}"
 						filterBy="#{_.DESCRIPTION}">
-						<h:outputText value="#{product.description}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.description}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputTextarea value="#{product.description}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 
 					<p:column headerText="Price" width="80px" sortBy="#{_.PRICE}"
 						filterBy="#{_.PRICE}">
-						<h:outputText value="#{product.price}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.price}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputNumber value="#{product.price}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 
 					<!-- Filter with multiple values -->
@@ -39,60 +80,114 @@
 						<f:facet name="filter">
 							<p:selectCheckboxMenu multiple="true"
 								emptyLabel="Please select..."
-								onchange="PF('productTable').filter()">
+								onchange="PF('productTableWidget').filter()">
 								<f:selectItems value="#{data.bean.categories}" var="category"
-									itemValue="#{category}" itemLabel="#{category.text}" />
+									itemValue="#{category}" itemLabel="#{category.name}" />
 							</p:selectCheckboxMenu>
 						</f:facet>
 
-						<h:outputText value="#{product.category.text}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.category.name}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:selectOneMenu value="#{product.category}" styleClass="w-full"
+									converter="pojoConverter">
+									<f:selectItems value="#{data.bean.categories}" var="category"
+										itemValue="#{category}" itemLabel="#{category.name}" />
+								</p:selectOneMenu>
+
+							</f:facet>
+						</p:cellEditor>
+
 					</p:column>
 
 					<p:column headerText="Quantity" width="100px"
 						sortBy="#{_.QUANTITY}" filterBy="#{_.QUANTITY}">
 						<f:facet name="filter">
-							<p:inputMask placeholder="min-max" mask="9{0,}-9{0,}" validateMask="false"
-								 
-								onchange="PF('productTable').filter()" />
+							<p:inputMask placeholder="min-max" mask="9{0,}-9{0,}"
+								validateMask="false" onchange="PF('productTable').filter()" />
 						</f:facet>
 
-						<h:outputText value="#{product.quantity}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.quantity}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{product.quantity}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 
 					<p:column headerText="Rating" width="80px" sortBy="#{_.RATING}"
 						filterBy="#{_.RATING}">
-						<h:outputText value="#{product.rating}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.rating}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{product.rating}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 
-					<p:column headerText="Updated at" width="200px"
+					<p:column headerText="Available at" width="200px"
 						sortBy="#{_.UDATED_AT}" filterBy="#{_.UDATED_AT}">
 						<f:facet name="filter">
 							<p:datePicker selectionMode="range"
-								onchange="PF('productTable').filter()"
+								onchange="PF('productTableWidget').filter()"
 								converter="javax.faces.DateTime"
 								pattern="#{dateTimePatternBean.datePattern}" />
 						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{product.availableAt}">
+									<f:convertDateTime locale="#{localeBean.locale}"
+										pattern="#{dateTimePatternBean.dateTimestampPattern}" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:datePicker value="#{product.availableAt}" showTime="true"
+									locale="#{localeBean.locale}"
+									pattern="#{dateTimePatternBean.dateTimestampPattern}">
+								</p:datePicker>
+							</f:facet>
+						</p:cellEditor>
 
-						<h:outputText value="#{product.updatedDate}">
-							<f:convertDateTime locale="#{localeBean.locale}"
-								pattern="#{dateTimePatternBean.dateTimestampPattern}" />
-						</h:outputText>
+
 					</p:column>
 
 					<!-- Filter with single value -->
 					<p:column headerText="Status" sortBy="#{_.STATUS}"
 						filterBy="#{_.STATUS}">
 						<f:facet name="filter">
-							<p:selectOneMenu onchange="PF('productTable').filter()">
+							<p:selectOneMenu onchange="PF('productTableWidget').filter()">
 								<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
 								<f:selectItems value="#{data.bean.status}" var="status"
 									itemValue="#{status}" itemLabel="#{status.text}" />
 							</p:selectOneMenu>
 						</f:facet>
 
-						<h:outputText value="#{product.status.text}" />
+						<p:cellEditor>
+
+							<f:facet name="output">
+								<h:outputText value="#{product.status.text}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:selectOneMenu value="#{product.status}" styleClass="w-full"
+									converter="pojoConverter">
+									<f:selectItems value="#{data.bean.status}" var="status"
+										itemValue="#{status}" itemLabel="#{status.text}" />
+								</p:selectOneMenu>
+
+							</f:facet>
+						</p:cellEditor>
+
 					</p:column>
 
+					<p:column style="width:6rem">
+						<p:rowEditor />
+					</p:column>
 				</p:dataTable>
 
 				<br />
@@ -103,9 +198,11 @@
 				</div>
 			</h:form>
 
-
-    </ui:define>
-  </ui:composition>
+			<ic:com.examples.ivy.persistence.component.CategoryDialog
+				category="#{data.bean.addCategory}" bean="#{data.bean}"
+				updateId="form:productTable" />
+		</ui:define>
+	</ui:composition>
 </h:body>
 
 </html>

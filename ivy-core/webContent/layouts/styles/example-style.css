@@ -1,0 +1,9 @@
+.dialog-command-btns {
+	display: flex;
+	justify-content: right;
+}
+
+.dialog-command-btns > a {
+	margin-right: 10px;
+	line-height: 30px;
+}

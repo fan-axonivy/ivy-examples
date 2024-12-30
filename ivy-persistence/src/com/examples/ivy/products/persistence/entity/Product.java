@@ -1,7 +1,7 @@
 package com.examples.ivy.products.persistence.entity;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,7 +43,7 @@ public class Product extends CustomAuditableEntity {
 	private InventoryStatus status;
 
 	@Column(name = "available_at")
-	private Instant availableAt;
+	private Date availableAt;
 
 	public String getName() {
 		return name;
@@ -101,11 +101,11 @@ public class Product extends CustomAuditableEntity {
 		this.status = status;
 	}
 
-	public Instant getAvailableAt() {
+	public Date getAvailableAt() {
 		return availableAt;
 	}
 
-	public void setAvailableAt(Instant availableAt) {
+	public void setAvailableAt(Date availableAt) {
 		this.availableAt = availableAt;
 	}
 }
